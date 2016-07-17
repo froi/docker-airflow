@@ -21,7 +21,6 @@ webserver:
     restart: always
     volumes:
          - /Users/MrMaksimize/Code/airflow_dags:/usr/local/airflow/dags
-
     environment:
         - AIRFLOW_HOME=/usr/local/airflow
     ports:
@@ -47,8 +46,8 @@ flower:
 scheduler:
     image: puckel/docker-airflow:1.7.1.3
     restart: always
-    # volumes:
-    #     - /localpath/to/dags:/usr/local/airflow/dags
+    volumes:
+        - /Users/MrMaksimize/Code/airflow_dags:/usr/local/airflow/dags
     environment:
         - AIRFLOW_HOME=/usr/local/airflow
     links:
