@@ -1,11 +1,11 @@
 # VERSION 1.7.1.3
-# AUTHOR: Matthieu "Puckel_" Roisil
-# DESCRIPTION: Basic Airflow container
-# BUILD: docker build --rm -t puckel/docker-airflow
-# SOURCE: https://github.com/puckel/docker-airflow
+# AUTHOR: Maksim Pecherskiy
+# DESCRIPTION: Basic Airflow container, Forked from puckel/docker-airflow
+# BUILD: docker build --rm -t mrmaksimize/airflow
+# SOURCE: https://github.com/mrmaksimize/airflow
 
 FROM debian:jessie
-MAINTAINER Puckel_
+MAINTAINER mrmaksimize
 
 # Never prompts the user for choices on installation/configuration of packages
 ENV DEBIAN_FRONTEND noninteractive
@@ -36,6 +36,7 @@ RUN set -ex \
         liblapack-dev \
     ' \
     && echo "deb http://http.debian.net/debian jessie-backports main" >/etc/apt/sources.list.d/backports.list \
+    && apt-get clean -yqq \
     && apt-get update -yqq \
     && apt-get install -yqq --no-install-recommends \
         $buildDeps \
@@ -44,6 +45,17 @@ RUN set -ex \
         netcat \
         locales \
     && apt-get install -yqq -t jessie-backports python-requests libpq-dev \
+    && apt-get install -yqq --no-install-recommends \
+        r-base \
+        r-recommended \
+        littler \
+    && echo 'options(repos = c(CRAN = "https://cran.rstudio.com/"), download.file.method = "libcurl")' >> /etc/R/Rprofile.site \
+    && echo 'source("/etc/R/Rprofile.site")' >> /etc/littler.r \
+    && ln -s /usr/share/doc/littler/examples/install.r /usr/local/bin/install.r \
+    && ln -s /usr/share/doc/littler/examples/install2.r /usr/local/bin/install2.r \
+    && ln -s /usr/share/doc/littler/examples/installGithub.r /usr/local/bin/installGithub.r \
+    && ln -s /usr/share/doc/littler/examples/testInstalled.r /usr/local/bin/testInstalled.r \
+    && install.r docopt \
     && sed -i 's/^# en_US.UTF-8 UTF-8$/en_US.UTF-8 UTF-8/g' /etc/locale.gen \
     && locale-gen \
     && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
