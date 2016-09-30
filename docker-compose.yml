@@ -30,6 +30,7 @@ webserver:
         - rabbitmq:rabbitmq
         - worker:worker
         - scheduler:scheduler
+        - fmeengine:fmeengine
     command: webserver
 
 flower:
@@ -66,3 +67,12 @@ worker:
         - postgres:postgres
         - rabbitmq:rabbitmq
     command: worker
+
+fmeengine:
+    image: safesoftware/fme-engine-2017:latest
+    restart: always
+    volumes:
+        - /Users/MrMaksimize/Code/ETL:/fmeengine/workspaces
+        - /Users/MrMaksimize/Code/logs:/fmeengine/logs
+    ports:
+        - "7777:7777"
