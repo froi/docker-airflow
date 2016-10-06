@@ -1,3 +1,4 @@
+#DEPRECATED
 postgres:
     image: postgres
     environment:
