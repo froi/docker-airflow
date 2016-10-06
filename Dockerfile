@@ -1,7 +1,7 @@
 # VERSION 1.7.1.3-2
 # AUTHOR: Maksim Pecherskiy
 # DESCRIPTION: Basic Airflow container, Forked from puckel/docker-airflow
-# BUILD: docker build --rm -t mrmaksimize/airflow
+# BUILD: docker build --rm -t mrmaksimize/airflow .
 # SOURCE: https://github.com/mrmaksimize/airflow
 
 FROM debian:jessie
