@@ -66,8 +66,11 @@ RUN set -ex \
     && pip install ndg-httpsclient \
     && pip install pyasn1 \
     && pip install psycopg2 \
+    #&& pip install requests \
+    #&& pip install logging \
+    && pip install boto3 \
     && pip install airflow[celery,postgresql,hive,slack,s3]==$AIRFLOW_VERSION \
-    && apt-get remove --purge -yqq $buildDeps libpq-dev \
+    #&& apt-get remove --purge -yqq $buildDeps libpq-dev \
     && apt-get clean \
     && rm -rf \
         /var/lib/apt/lists/* \
@@ -88,3 +91,4 @@ EXPOSE 8080 5555 8793
 USER airflow
 WORKDIR ${AIRFLOW_HOME}
 ENTRYPOINT ["./entrypoint.sh"]
+
