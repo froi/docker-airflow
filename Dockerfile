@@ -22,6 +22,7 @@ ENV LC_ALL en_US.UTF-8
 ENV LC_CTYPE en_US.UTF-8
 ENV LC_MESSAGES en_US.UTF-8
 ENV LC_ALL  en_US.UTF-8
+ENV LC_ALL=C
 
 RUN set -ex \
     && buildDeps=' \
@@ -44,6 +45,8 @@ RUN set -ex \
         curl \
         netcat \
         locales \
+        cython \
+        python-numpy \
     && apt-get install -yqq -t jessie-backports python-requests libpq-dev \
     && apt-get install -yqq --no-install-recommends \
         r-base \
@@ -66,8 +69,8 @@ RUN set -ex \
     && pip install ndg-httpsclient \
     && pip install pyasn1 \
     && pip install psycopg2 \
-    #&& pip install requests \
-    #&& pip install logging \
+    && pip install requests \
+    && pip install logging \
     && pip install boto3 \
     && pip install airflow[celery,postgresql,hive,slack,s3]==$AIRFLOW_VERSION \
     #&& apt-get remove --purge -yqq $buildDeps libpq-dev \
@@ -91,4 +94,3 @@ EXPOSE 8080 5555 8793
 USER airflow
 WORKDIR ${AIRFLOW_HOME}
 ENTRYPOINT ["./entrypoint.sh"]
-
