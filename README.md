@@ -33,6 +33,10 @@ By default, docker-airflow run Airflow with **SequentialExecutor** :
 
 If you want to run other executor, you've to use the docker-compose.yml files provided in this repository.
 
+For **Development or Debugging**:
+
+        docker-compose -f docker-compose-SequentialExecutor.yml up -d
+
 For **LocalExecutor** :
 
         docker-compose -f docker-compose-LocalExecutor.yml up -d
