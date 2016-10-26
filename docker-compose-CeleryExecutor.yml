@@ -21,9 +21,9 @@ services:
     webserver:
         image: mrmaksimize/airflow:latest
         restart: always
-        volumes: 
-            - /Users/MrMaksimize/Code/airflow_dags:/usr/local/airflow/dags
-            - /Users/MrMaksimize/Code/ETL:/ETL
+        volumes:
+            - ~/Code/airflow_dags:/usr/local/airflow/dags
+            - ~/Code/ETL:/ETL
         depends_on:
             - postgres
             - rabbitmq
@@ -38,7 +38,7 @@ services:
             - rabbitmq:rabbitmq
             - worker:worker
             - scheduler:scheduler
-            - fmeengine:fmeengine    
+            - fmeengine:fmeengine
         command: webserver
 
     flower:
@@ -61,8 +61,8 @@ services:
         depends_on:
             - webserver
         volumes:
-            - /Users/MrMaksimize/Code/airflow_dags:/usr/local/airflow/dags
-            - /Users/MrMaksimize/Code/ETL:/ETL
+            - ~/Code/airflow_dags:/usr/local/airflow/dags
+            - ~/Code/ETL:/ETL
         environment:
             - LOAD_EX=n
             - EXECUTOR=Celery
@@ -79,8 +79,8 @@ services:
         depends_on:
             - scheduler
         volumes:
-            - /Users/MrMaksimize/Code/airflow_dags:/usr/local/airflow/dags
-            - /Users/MrMaksimize/Code/ETL:/ETL
+            - ~/Code/airflow_dags:/usr/local/airflow/dags
+            - ~/Code/ETL:/ETL
         environment:
             - EXECUTOR=Celery
             - AIRFLOW_HOME=/usr/local/airflow
@@ -89,12 +89,12 @@ services:
             - rabbitmq:rabbitmq
             - fmeengine:fmeengine
         command: worker
-    
+
     fmeengine:
         image: safesoftware/fme-engine-2017:latest
         restart: always
         volumes:
-            - /Users/MrMaksimize/Code/ETL:/ETL
-            - /Users/MrMaksimize/Code/ETL/logs:/fmeengine/logs
+            - ~/Code/ETL:/ETL
+            - ~/Code/ETL/logs:/fmeengine/logs
         ports:
             - "7777:7777"

@@ -5,13 +5,13 @@ services:
         environment:
             - POSTGRES_USER=airflow
             - POSTGRES_PASSWORD=airflow
-            - POSTGRES_DB=airflow 
+            - POSTGRES_DB=airflow
     webserver:
         image: mrmaksimize/airflow:latest
         restart: always
-        volumes: 
-            - /Users/MrMaksimize/Code/airflow_dags:/usr/local/airflow/dags
-            - /Users/MrMaksimize/Code/ETL:/ETL
+        volumes:
+            - ~/Code/airflow_dags:/usr/local/airflow/dags
+            - ~/Code/ETL:/ETL
         depends_on:
             - postgres
         environment:
@@ -20,14 +20,14 @@ services:
         ports:
             - "8080:8080"
         links:
-            - fmeengine:fmeengine    
+            - fmeengine:fmeengine
         command: webserver
-    
+
     fmeengine:
         image: safesoftware/fme-engine-2017:latest
         restart: always
         volumes:
-            - /Users/MrMaksimize/Code/ETL:/ETL
-            - /Users/MrMaksimize/Code/ETL/logs:/fmeengine/logs
+            - ~/Code/ETL:/ETL
+            - ~/Code/ETL/logs:/fmeengine/logs
         ports:
             - "7777:7777"
