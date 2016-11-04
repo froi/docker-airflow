@@ -1,0 +1,36 @@
+version: '2'
+services:
+    postgres:
+        image: postgres
+        environment:
+            - POSTGRES_USER=airflow
+            - POSTGRES_PASSWORD=airflow
+            - POSTGRES_DB=airflow
+    webserver:
+        image: mrmaksimize/airflow:latest
+        restart: always
+        volumes:
+            - /c/Users/maksimp/Code/airflow_dags:/usr/local/airflow/dags
+            - /c/Users/maksimp/Code/ETL:/ETL
+            - /c/apps/FME:/FME
+            - /c:/FME2
+        depends_on:
+            - postgres
+        environment:
+            - LOAD_EX=n
+            - AIRFLOW_HOME=/usr/local/airflow
+        ports:
+            - "8080:8080"
+        links:
+            - fmeengine:fmeengine
+        command: webserver
+
+    fmeengine:
+        image: safesoftware/fme-engine-2017:latest
+        restart: always
+        volumes:
+            - /c/Users/maksimp/Code/ETL:/ETL
+            - /c/Users/maksimp/Code/ETL/logs:/fmeengine/logs
+        ports:
+            - "7777:7777"
+            - "1433:1433"
