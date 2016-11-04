@@ -24,6 +24,12 @@ ENV LC_MESSAGES en_US.UTF-8
 ENV LC_ALL  en_US.UTF-8
 ENV LC_ALL=C
 
+# Oracle Essentials
+ENV ORACLE_HOME /opt/oracle
+ENV ARCH x86_64
+ENV DYLD_LIBRARY_PATH /opt/oracle
+ENV LD_LIBRARY_PATH /opt/oracle
+
 RUN set -ex \
     && buildDeps=' \
         python-pip \
@@ -47,6 +53,8 @@ RUN set -ex \
         locales \
         cython \
         python-numpy \
+        libaio1 \
+        unzip \
     && apt-get install -yqq -t jessie-backports python-requests libpq-dev \
     && apt-get install -yqq --no-install-recommends \
         r-base \
@@ -85,6 +93,11 @@ RUN set -ex \
 
 COPY script/entrypoint.sh ${AIRFLOW_HOME}/entrypoint.sh
 COPY config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
+COPY assets/oracle.zip  ${AIRFLOW_HOME}/oracle.zip
+
+RUN unzip ${AIRFLOW_HOME}/oracle.zip -d /opt \
+&& env ARCHFLAGS="-arch $ARCH" pip install cx_Oracle \
+&& rm ${AIRFLOW_HOME}/oracle.zip
 
 RUN chown -R airflow: ${AIRFLOW_HOME} \
     && chmod +x ${AIRFLOW_HOME}/entrypoint.sh
