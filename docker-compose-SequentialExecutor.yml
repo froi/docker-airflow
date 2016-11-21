@@ -10,8 +10,7 @@ services:
         image: mrmaksimize/airflow:latest
         restart: always
         volumes:
-            - ~/Code/airflow_dags:/usr/local/airflow/dags
-            - ~/Code/ETL:/ETL
+            - ~/Code/poseidon:/usr/local/airflow/dags
         depends_on:
             - postgres
         environment:
@@ -27,7 +26,7 @@ services:
         image: safesoftware/fme-engine-2017:latest
         restart: always
         volumes:
-            - ~/Code/ETL:/ETL
+            - ~/Code/poseidon:/ETL
             - ~/Code/ETL/logs:/fmeengine/logs
         ports:
             - "7777:7777"

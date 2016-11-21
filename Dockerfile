@@ -81,6 +81,7 @@ RUN set -ex \
     && pip install logging \
     && pip install boto3 \
     && pip install airflow[celery,postgresql,hive,slack,s3]==$AIRFLOW_VERSION \
+    && pip install -r "$AIRFLOW_HOME"/requirements.txt
     #&& apt-get remove --purge -yqq $buildDeps libpq-dev \
     && apt-get clean \
     && rm -rf \
@@ -100,7 +101,8 @@ RUN unzip ${AIRFLOW_HOME}/oracle.zip -d /opt \
 && rm ${AIRFLOW_HOME}/oracle.zip
 
 RUN chown -R airflow: ${AIRFLOW_HOME} \
-    && chmod +x ${AIRFLOW_HOME}/entrypoint.sh
+    && chmod +x ${AIRFLOW_HOME}/entrypoint.sh \
+    && chown -R airflow /usr/lib/python* /usr/local/lib/python*
 
 EXPOSE 8080 5555 8793
 
