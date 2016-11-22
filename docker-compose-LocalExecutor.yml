@@ -25,8 +25,8 @@ services:
         ports:
             - "8080:8080"
         links:
-            - postgres:postgres
-            - scheduler:scheduler
+            #- postgres:postgres
+            #- scheduler:scheduler
             - fmeengine:fmeengine
         entrypoint: /usr/local/airflow/poseidon/custom_entrypoint.sh
         command: webserver
