@@ -8,27 +8,53 @@ services:
             - POSTGRES_DB=airflow
 
     webserver:
-        image: puckel/docker-airflow:1.7.1.3-2
+        image: mrmaksimize/airflow:latest
         restart: always
+        volumes:
+            - ~/Code/sd_airflow/poseidon:/usr/local/airflow/poseidon
+            - ~/Code/sd_airflow/poseidon/data:/data
         depends_on:
             - postgres
         environment:
-            # - LOAD_EX=n
+            - LOAD_EX=n
             - EXECUTOR=Local
-        # volumes:
-        #     - /localpath/to/dags:/usr/local/airflow/dags
+            - AIRFLOW_HOME=/usr/local/airflow
+        env_file:
+            - ~/Code/sd_airflow/docker-airflow/config/local.env
         ports:
             - "8080:8080"
+        links:
+            - postgres:postgres
+            - scheduler:scheduler
+            - fmeengine:fmeengine
+        entrypoint: /usr/local/airflow/poseidon/custom_entrypoint.sh
         command: webserver
 
     scheduler:
-        image: puckel/docker-airflow:1.7.1.3-2
+        image: mrmaksimize/airflow:latest
         restart: always
+        volumes:
+            - ~/Code/sd_airflow/poseidon:/usr/local/airflow/poseidon
+            - ~/Code/sd_airflow/poseidon/data:/data
         depends_on:
             - webserver
-        # volumes:
-        #     - /localpath/to/dags:/usr/local/airflow/dags
         environment:
-            # - LOAD_EX=n
+            - LOAD_EX=n
             - EXECUTOR=Local
-        command: scheduler -n 5
+            - AIRFLOW_HOME=/usr/local/airflow
+        env_file:
+            - ~/Code/sd_airflow/docker-airflow/config/local.env
+        links:
+            - fmeengine:fmeengine
+        entrypoint: /usr/local/airflow/poseidon/custom_entrypoint.sh
+        command: scheduler -n 1
+
+    fmeengine:
+        image: safesoftware/fme-engine-2017:latest
+        restart: always
+        volumes:
+            - ~/Code/sd_airflow/poseidon:/poseidon
+            - ~/Code/sd_airflow/poseidon/data:/data
+            - ~/Code/sd_airflow/poseidon/logs:/fmeengine/logs
+        ports:
+            - "7777:7777"
