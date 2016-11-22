@@ -1,11 +1,12 @@
 version: '2'
 services:
     postgres:
-        image: postgres
+        image: postgres:9.6
         environment:
             - POSTGRES_USER=airflow
             - POSTGRES_PASSWORD=airflow
             - POSTGRES_DB=airflow
+
     webserver:
         image: mrmaksimize/airflow:latest
         restart: always
@@ -16,7 +17,9 @@ services:
             - postgres
         environment:
             - LOAD_EX=n
+            - FERNET_KEY=9IoTgQ_EJ0hCsamBU3Mctc7F9OkODnndOKCwkwXCAA
             - AIRFLOW_HOME=/usr/local/airflow
+            - EXECUTOR=Sequential
         env_file: 
             - ~/Code/sd_airflow/docker-airflow/config/local.env
         ports:
