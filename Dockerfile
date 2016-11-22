@@ -55,6 +55,9 @@ RUN set -ex \
         python-numpy \
         libaio1 \
         unzip \
+        less \
+        freetds-dev \
+        vim \
     && apt-get install -yqq -t jessie-backports python-requests libpq-dev \
     && apt-get install -yqq --no-install-recommends \
         r-base \
@@ -81,7 +84,6 @@ RUN set -ex \
     && pip install logging \
     && pip install boto3 \
     && pip install airflow[celery,postgresql,hive,slack,s3]==$AIRFLOW_VERSION \
-    && pip install -r "$AIRFLOW_HOME"/requirements.txt
     #&& apt-get remove --purge -yqq $buildDeps libpq-dev \
     && apt-get clean \
     && rm -rf \
