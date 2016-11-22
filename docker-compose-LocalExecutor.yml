@@ -13,6 +13,7 @@ services:
         volumes:
             - ~/Code/sd_airflow/poseidon:/usr/local/airflow/poseidon
             - ~/Code/sd_airflow/poseidon/data:/data
+            - ~/Code/sd_airflow/poseidon/logs:/usr/local/airflow/logs
         depends_on:
             - postgres
         environment:
@@ -20,6 +21,7 @@ services:
             - EXECUTOR=Local
             - FERNET_KEY=9IoTgQ_EJ0hCsamBU3Mctc7F9OkODnndOKCwkwXCAA
             - AIRFLOW_HOME=/usr/local/airflow
+            - AIRFLOW__CORE__BASE_LOG_FOLDER=/usr/local/airflow/logs
         env_file: 
             - ~/Code/sd_airflow/docker-airflow/config/local.env
         ports:
@@ -36,6 +38,7 @@ services:
         volumes:
             - ~/Code/sd_airflow/poseidon:/usr/local/airflow/poseidon
             - ~/Code/sd_airflow/poseidon/data:/data
+            - ~/Code/sd_airflow/poseidon/logs:/usr/local/airflow/logs
         depends_on:
             - webserver
         environment:
@@ -43,6 +46,7 @@ services:
             - FERNET_KEY=9IoTgQ_EJ0hCsamBU3Mctc7F9OkODnndOKCwkwXCAA
             - EXECUTOR=Local
             - AIRFLOW_HOME=/usr/local/airflow
+            - AIRFLOW__CORE__BASE_LOG_FOLDER=/usr/local/airflow/logs
         env_file: 
             - ~/Code/sd_airflow/docker-airflow/config/local.env
         links:
