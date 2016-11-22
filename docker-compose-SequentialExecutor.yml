@@ -17,6 +17,8 @@ services:
         environment:
             - LOAD_EX=n
             - AIRFLOW_HOME=/usr/local/airflow
+        env_file: 
+            - ~/Code/sd_airflow/docker-airflow/config/local.env
         ports:
             - "8080:8080"
         links:

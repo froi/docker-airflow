@@ -83,6 +83,9 @@ RUN set -ex \
     && pip install requests \
     && pip install logging \
     && pip install boto3 \
+    && pip install geojson \
+    && pip install httplib2 \
+    && pip install pymssql \
     && pip install airflow[celery,postgresql,hive,slack,s3]==$AIRFLOW_VERSION \
     #&& apt-get remove --purge -yqq $buildDeps libpq-dev \
     && apt-get clean \
