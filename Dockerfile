@@ -1,4 +1,4 @@
-# VERSION 1.7.1.3-2
+# VERSION 1.7.1.3-5
 # AUTHOR: Maksim Pecherskiy
 # DESCRIPTION: Basic Airflow container, Forked from puckel/docker-airflow
 # BUILD: docker build --rm -t mrmaksimize/airflow .
@@ -32,7 +32,6 @@ ENV LD_LIBRARY_PATH /opt/oracle
 
 RUN set -ex \
     && buildDeps=' \
-        python-pip \
         python-dev \
         libkrb5-dev \
         libsasl2-dev \
@@ -47,6 +46,7 @@ RUN set -ex \
     && apt-get update -yqq \
     && apt-get install -yqq --no-install-recommends \
         $buildDeps \
+        python-pip \
         apt-utils \
         curl \
         netcat \
@@ -74,6 +74,7 @@ RUN set -ex \
     && locale-gen \
     && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
     && useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow \
+    && pip install Cython \
     && pip install pytz==2015.7 \
     && pip install cryptography \
     && pip install pyOpenSSL \
@@ -86,7 +87,9 @@ RUN set -ex \
     && pip install geojson \
     && pip install httplib2 \
     && pip install pymssql \
-    && pip install airflow[celery,postgresql,hive,slack,s3]==$AIRFLOW_VERSION \
+    && pip install pandas==0.18.1 \
+    && pip install celery==3.1.23 \
+    && pip install airflow[celery,postgres,hive,slack,jdbc,s3]==$AIRFLOW_VERSION \
     #&& apt-get remove --purge -yqq $buildDeps libpq-dev \
     && apt-get clean \
     && rm -rf \

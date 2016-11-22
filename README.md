@@ -58,7 +58,18 @@ Go to Admin -> Connections and Edit "mysql_default" set this values (equivalent 
 - Login : airflow
 - Password : airflow
 
+For encrypted connection passwords (in Local or Celery Executor), you must have the same fernet_key. By default docker-airflow generates the fernet_key at startup, you have to set an environment variable in the docker-compose (ie: docker-compose-LocalExecutor.yml) file to set the same key accross containers. To generate a fernet_key :
+
+        python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print FERNET_KEY"
+
 Check [Airflow Documentation](http://pythonhosted.org/airflow/)
+
+
+## Install custom python package
+
+- Create a file "requirements.txt" with the dedired python modules
+- Mount this file as a volume `-v $(pwd)/requirements.txt:/requirements.txt`
+- The entrypoint.sh script execute the pip install command (with --user option)
 
 ## UI Links
 
