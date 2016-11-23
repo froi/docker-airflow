@@ -58,6 +58,7 @@ RUN set -ex \
         less \
         freetds-dev \
         vim \
+        wget \
     && apt-get install -yqq -t jessie-backports python-requests libpq-dev \
     && apt-get install -yqq --no-install-recommends \
         r-base \
