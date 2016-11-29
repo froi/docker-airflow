@@ -40,3 +40,7 @@ elif command == 'rebuild_image':
 elif command == 'remove_image':
     image_id = args[2]
     subprocess.call('docker rmi -f ' + image_id, shell=True)
+
+elif command == 'setup':
+    menv = args[2] or 'mac'
+    subprocess.call('rm -rf .env && cp ' + menv + '.env .env')
