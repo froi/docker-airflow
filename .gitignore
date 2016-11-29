@@ -23,5 +23,5 @@ Session.vim
 sftp-config.json
 
 oracle.zip
-*.env
+.env
 
