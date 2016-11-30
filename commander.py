@@ -20,14 +20,22 @@ containers = {
 }
 
 if command == 'start' or command == 'restart':
-    compose_type = args[2] or 'local'
+    try:
+        compose_type = args[2]
+    except:
+        compose_type = raw_input('Enter Executor (' + ', '.join(executors.keys()) + '): ')
+
     tmpl = string.Template("Starting $composeType executor.")
     print(tmpl.substitute(composeType=compose_type))
     subprocess.call("docker-compose down && docker-compose -f docker-compose-" \
     + executors[compose_type] + ".yml up -d", shell=True)
 
 elif command == 'ssh':
-    cname = args[2] or 'webserver'
+    try:
+        cname = args[2]
+    except:
+        cname = raw_input('Enter Container Type (' + ', '.join(containers.keys()) + '): ')
+
     tmpl = string.Template("Opening connection to local $cname container")
     print(tmpl.substitute(cname = cname))
     subprocess.call("docker exec -it dockerairflow_" \
