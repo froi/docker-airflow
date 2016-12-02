@@ -3,6 +3,7 @@
 import sys
 import subprocess
 import string
+import time
 
 args = sys.argv
 
@@ -27,7 +28,7 @@ if command == 'start' or command == 'restart':
 
     tmpl = string.Template("Starting $composeType executor.")
     print(tmpl.substitute(composeType=compose_type))
-    subprocess.call("docker-compose down && docker-compose -f docker-compose-" \
+    subprocess.call("docker-compose -f docker-compose-" + executors[compose_type] + ".yml down && docker-compose -f docker-compose-" \
     + executors[compose_type] + ".yml up -d", shell=True)
 
 elif command == 'ssh':
@@ -44,15 +45,16 @@ elif command == 'ssh':
 elif command == 'jupyter':
     port = "8888"
     url = "http://127.0.0.1:" + port
+    c_call = "docker exec -itd dockerairflow_" + containers['webserver']
     print('Starting Jupyter NB within the webserver environment on ' + url)
+    subprocess.call(c_call + " pkill -f jupyter", shell=True)
+    subprocess.call(c_call + " jupyter notebook --no-browser --port " + port + " --ip=0.0.0.0", shell=True)
     try:
         import webbrowser
+        time.sleep(2)
         webbrowser.open(url, new=2)
     except ImportError:
         pass
-    subprocess.call("docker exec -it dockerairflow_" \
-    + containers['webserver'] + " jupyter notebook --no-browser --port " + port + " --ip=0.0.0.0", shell=True)
-
 
 elif command == 'rebuild_image':
     print("DID YOU REMOVE THE IMAGE FIRST???")
