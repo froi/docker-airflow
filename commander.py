@@ -41,6 +41,19 @@ elif command == 'ssh':
     subprocess.call("docker exec -it dockerairflow_" \
     + containers[cname] + " /bin/bash", shell=True)
 
+elif command == 'jupyter':
+    port = "8888"
+    url = "http://127.0.0.1:" + port
+    print('Starting Jupyter NB within the webserver environment on ' + url)
+    try:
+        import webbrowser
+        webbrowser.open(url, new=2)
+    except ImportError:
+        pass
+    subprocess.call("docker exec -it dockerairflow_" \
+    + containers['webserver'] + " jupyter notebook --no-browser --port " + port + " --ip=0.0.0.0", shell=True)
+
+
 elif command == 'rebuild_image':
     print("DID YOU REMOVE THE IMAGE FIRST???")
     subprocess.call("docker build --rm --no-cache -t mrmaksimize/airflow .", shell=True)
