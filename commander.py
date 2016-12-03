@@ -20,16 +20,30 @@ containers = {
     'fmeengine': 'fmeengine_1'
 }
 
-if command == 'start' or command == 'restart':
+def run_compose(direction='up', compose_type='sequential'):
+    executor = executors[compose_type]
+    tmpl = string.Template("Starting $ex_name executor.")
+    print(tmpl.substitute(ex_name=executor))
+    bash_tmpl = string.Template("docker-compose -f docker-compose-$ex_name.yml $op -d")
+    subprocess.call(bash_tmpl.substitute(ex_name=executor, op=direction), shell=True)
+
+def get_compose_type():
     try:
         compose_type = args[2]
     except:
         compose_type = raw_input('Enter Executor (' + ', '.join(executors.keys()) + '): ')
 
-    tmpl = string.Template("Starting $composeType executor.")
-    print(tmpl.substitute(composeType=compose_type))
-    subprocess.call("docker-compose -f docker-compose-" + executors[compose_type] + ".yml down && docker-compose -f docker-compose-" \
-    + executors[compose_type] + ".yml up -d", shell=True)
+    return compose_type
+
+if command == 'start':
+    run_compose('up', get_compose_type())
+
+elif command == 'stop':
+    run_compose('down', get_compose_type())
+
+elif command == 'restart':
+    run_compose('down', get_compose_type())
+    run_compose('up', get_compose_type())
 
 elif command == 'ssh':
     try:
