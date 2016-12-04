@@ -20,11 +20,11 @@ containers = {
     'fmeengine': 'fmeengine_1'
 }
 
-def run_compose(direction='up', compose_type='sequential'):
+def run_compose(direction='up -d', compose_type='sequential'):
     executor = executors[compose_type]
     tmpl = string.Template("Starting $ex_name executor.")
     print(tmpl.substitute(ex_name=executor))
-    bash_tmpl = string.Template("docker-compose -f docker-compose-$ex_name.yml $op -d")
+    bash_tmpl = string.Template("docker-compose -f docker-compose-$ex_name.yml $op")
     subprocess.call(bash_tmpl.substitute(ex_name=executor, op=direction), shell=True)
 
 def get_compose_type():
@@ -36,7 +36,7 @@ def get_compose_type():
     return compose_type
 
 if command == 'start':
-    run_compose('up', get_compose_type())
+    run_compose(compose_type=get_compose_type())
 
 elif command == 'stop':
     run_compose('down', get_compose_type())
