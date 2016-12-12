@@ -57,6 +57,7 @@ RUN set -ex \
         unzip \
         less \
         freetds-dev \
+        smbclient \
         vim \
         wget \
     && apt-get install -yqq -t jessie-backports python-requests libpq-dev \
@@ -88,7 +89,7 @@ RUN set -ex \
     && pip install geojson \
     && pip install httplib2 \
     && pip install pymssql \
-    && pip install pandas==0.18.1 \
+    && pip install pandas==0.19.1 \
     && pip install celery==3.1.23 \
     && pip install jupyter \
     && pip install airflow[celery,postgres,hive,slack,jdbc,s3]==$AIRFLOW_VERSION \
