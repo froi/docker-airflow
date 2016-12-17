@@ -22,7 +22,10 @@ services:
             - AIRFLOW_HOME=/usr/local/airflow
             - EXECUTOR=Sequential
             - AIRFLOW__CORE__BASE_LOG_FOLDER=/usr/local/airflow/logs
-        env_file: 
+            - AIRFLOW__CORE__REMOTE_BASE_LOG_FOLDER=s3://datasd-dev-logs/logs
+            - AIRFLOW__CORE__REMOTE_LOG_CONN_ID=s3log
+
+        env_file:
             - ${PATH_PREFIX}/poseidon/local.env
         ports:
             - "8080:8080"
@@ -32,7 +35,7 @@ services:
             - fmeengine:fmeengine
         entrypoint: /usr/local/airflow/poseidon/custom_entrypoint.sh
         command: webserver
-    
+
 
     fmeengine:
         image: safesoftware/fme-engine-2017:latest

@@ -20,16 +20,21 @@ containers = {
     'fmeengine': 'fmeengine_1'
 }
 
-if command == 'start' or command == 'restart':
+if command == 'start' or command == 'up' or command == 'stop' or command == 'down':
     try:
         compose_type = args[2]
     except:
         compose_type = raw_input('Enter Executor (' + ', '.join(executors.keys()) + '): ')
 
-    tmpl = string.Template("Starting $composeType executor.")
+    # Stop no matter what.
+    tmpl = string.Template("Stopping $composeType executor.")
     print(tmpl.substitute(composeType=compose_type))
-    subprocess.call("docker-compose -f docker-compose-" + executors[compose_type] + ".yml down && docker-compose -f docker-compose-" \
-    + executors[compose_type] + ".yml up -d", shell=True)
+    subprocess.call("docker-compose -f docker-compose-" + executors[compose_type] + ".yml down", shell=True)
+
+    if command == 'up' or command == 'start':
+        tmpl = string.Template("Starting $composeType executor.")
+        print(tmpl.substitute(composeType=compose_type))
+        subprocess.call("docker-compose -f docker-compose-" + executors[compose_type] + ".yml up -d", shell=True)
 
 elif command == 'ssh':
     try:

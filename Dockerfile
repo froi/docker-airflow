@@ -90,6 +90,9 @@ RUN set -ex \
     && pip install httplib2 \
     && pip install pymssql \
     && pip install pandas==0.19.1 \
+    && pip install xlrd==1.0.0 \
+    && pip install autodoc==0.3 \
+    && pip install Sphinx==1.5.1 \
     && pip install celery==3.1.23 \
     && pip install jupyter \
     && pip install airflow[celery,postgres,hive,slack,jdbc,s3]==$AIRFLOW_VERSION \
