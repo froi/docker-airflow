@@ -94,6 +94,8 @@ RUN set -ex \
     && pip install autodoc==0.3 \
     && pip install Sphinx==1.5.1 \
     && pip install celery==3.1.23 \
+    && pip install beautifulsoup4==4.5.1 \
+    && pip install lxml==3.7.0 \
     && pip install jupyter \
     && pip install keen \
     && pip install airflow[celery,postgres,hive,slack,jdbc,s3]==$AIRFLOW_VERSION \
