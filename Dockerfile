@@ -95,6 +95,7 @@ RUN set -ex \
     && pip install Sphinx==1.5.1 \
     && pip install celery==3.1.23 \
     && pip install jupyter \
+    && pip install keen \
     && pip install airflow[celery,postgres,hive,slack,jdbc,s3]==$AIRFLOW_VERSION \
     #&& apt-get remove --purge -yqq $buildDeps libpq-dev \
     && apt-get clean \
