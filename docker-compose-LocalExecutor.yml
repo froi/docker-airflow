@@ -22,7 +22,7 @@ services:
             - AIRFLOW_HOME=/usr/local/airflow
 
         env_file:
-            - ${PATH_PREFIX}/poseidon/local.env
+            - ${PATH_PREFIX}/poseidon/${ENV_FILE}
         ports:
             - "8080:8080"
         links:
@@ -46,7 +46,7 @@ services:
             - EXECUTOR=Local
             - AIRFLOW_HOME=/usr/local/airflow
         env_file:
-            - ${PATH_PREFIX}/poseidon/local.env
+            - ${PATH_PREFIX}/poseidon/${ENV_FILE}
         links:
             - fmeengine:fmeengine
         entrypoint: /usr/local/airflow/poseidon/custom_entrypoint.sh
