@@ -9,7 +9,11 @@ args = sys.argv
 
 command = args[1]
 
-executors = {'local': 'LocalExecutor', 'sequential': 'SequentialExecutor'}
+executors = {
+    'local': 'LocalExecutor',
+    'sequential': 'SequentialExecutor',
+    'celery': 'CeleryExecutor'
+}
 
 containers = {
     'webserver': 'webserver_1',
