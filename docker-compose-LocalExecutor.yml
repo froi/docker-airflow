@@ -20,7 +20,6 @@ services:
             - EXECUTOR=Local
             - FERNET_KEY=9IoTgQ_EJ0hCsamBU3Mctc7F9OkODnndOKCwkwXCAA
             - AIRFLOW_HOME=/usr/local/airflow
-
         env_file:
             - ${PATH_PREFIX}/poseidon/${ENV_FILE}
         ports:
