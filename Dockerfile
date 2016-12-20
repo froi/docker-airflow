@@ -57,20 +57,23 @@ RUN set -ex \
         unzip \
         less \
         freetds-dev \
+        smbclient \
         vim \
         wget \
+        libxml2-dev \
+        libxslt-dev \
     && apt-get install -yqq -t jessie-backports python-requests libpq-dev \
-    && apt-get install -yqq --no-install-recommends \
-        r-base \
-        r-recommended \
-        littler \
-    && echo 'options(repos = c(CRAN = "https://cran.rstudio.com/"), download.file.method = "libcurl")' >> /etc/R/Rprofile.site \
-    && echo 'source("/etc/R/Rprofile.site")' >> /etc/littler.r \
-    && ln -s /usr/share/doc/littler/examples/install.r /usr/local/bin/install.r \
-    && ln -s /usr/share/doc/littler/examples/install2.r /usr/local/bin/install2.r \
-    && ln -s /usr/share/doc/littler/examples/installGithub.r /usr/local/bin/installGithub.r \
-    && ln -s /usr/share/doc/littler/examples/testInstalled.r /usr/local/bin/testInstalled.r \
-    && install.r docopt \
+    #&& apt-get install -yqq --no-install-recommends \
+    #    r-base \
+    #    r-recommended \
+    #    littler \
+    #&& echo 'options(repos = c(CRAN = "https://cran.rstudio.com/"), download.file.method = "libcurl")' >> /etc/R/Rprofile.site \
+    #&& echo 'source("/etc/R/Rprofile.site")' >> /etc/littler.r \
+    #&& ln -s /usr/share/doc/littler/examples/install.r /usr/local/bin/install.r \
+    #&& ln -s /usr/share/doc/littler/examples/install2.r /usr/local/bin/install2.r \
+    #&& ln -s /usr/share/doc/littler/examples/installGithub.r /usr/local/bin/installGithub.r \
+    #&& ln -s /usr/share/doc/littler/examples/testInstalled.r /usr/local/bin/testInstalled.r \
+    #&& install.r docopt \
     && sed -i 's/^# en_US.UTF-8 UTF-8$/en_US.UTF-8 UTF-8/g' /etc/locale.gen \
     && locale-gen \
     && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
@@ -88,8 +91,13 @@ RUN set -ex \
     && pip install geojson \
     && pip install httplib2 \
     && pip install pymssql \
-    && pip install pandas==0.18.1 \
+    && pip install pandas==0.19.1 \
+    && pip install xlrd==1.0.0 \
+    && pip install autodoc==0.3 \
+    && pip install Sphinx==1.5.1 \
     && pip install celery==3.1.23 \
+    && pip install beautifulsoup4==4.5.1 \
+    && pip install lxml==3.7.0 \
     && pip install jupyter \
     && pip install airflow[celery,postgres,hive,slack,jdbc,s3]==$AIRFLOW_VERSION \
     #&& apt-get remove --purge -yqq $buildDeps libpq-dev \
