@@ -63,8 +63,8 @@ elif command == 'jupyter':
     print('Starting Jupyter NB within the webserver environment on ' + url)
     subprocess.call(c_call + " pkill -f jupyter", shell=True)
     subprocess.call(
-        c_call + " jupyter notebook --no-browser --port " + port +
-        " --ip=0.0.0.0",
+            c_call + " jupyter notebook --no-browser --port " + port +
+        " --ip=0.0.0.0 --NotebookApp.token=''",
         shell=True)
     try:
         import webbrowser
