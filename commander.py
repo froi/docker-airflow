@@ -73,6 +73,10 @@ elif command == 'jupyter':
     except ImportError:
         pass
 
+elif command == 'pull_latest_image':
+    print("Pulling latest from docker hub")
+    subprocess.call('docker pull mrmaksimize/airflow:latest', shell=True)
+
 elif command == 'rebuild_image':
     print("DID YOU REMOVE THE IMAGE FIRST???")
     subprocess.call(
