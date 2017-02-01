@@ -21,6 +21,12 @@ containers = {
     'fmeengine': 'fmeengine_1'
 }
 
+def kill_all_containers():
+    subprocess.call('docker kill $(docker ps -q)', shell=True)
+    subprocess.call('docker rm $(docker ps -a -q)', shell=True)
+
+
+
 if command == 'start' or command == 'up' or command == 'stop' or command == 'down':
     try:
         compose_type = args[2]
@@ -31,11 +37,7 @@ if command == 'start' or command == 'up' or command == 'stop' or command == 'dow
     # Stop no matter what.
     tmpl = string.Template("Stopping $composeType executor.")
     print(tmpl.substitute(composeType=compose_type))
-    subprocess.call(
-        "docker-compose -f docker-compose-" + executors[compose_type] +
-        ".yml down",
-        shell=True)
-
+    kill_all_containers()
     if command == 'up' or command == 'start':
         tmpl = string.Template("Starting $composeType executor.")
         print(tmpl.substitute(composeType=compose_type))
@@ -87,8 +89,7 @@ elif command == 'remove_image':
     subprocess.call('docker rmi -f ' + image_id, shell=True)
 
 elif command == 'kill_all_containers':
-    subprocess.call('docker kill $(docker ps -q)', shell=True)
-    subprocess.call('docker rm $(docker ps -a -q)', shell=True)
+    kill_all_containers()
 
 elif command == 'setup':
     menv = args[2] or 'mac'
