@@ -31,6 +31,7 @@ services:
             - AIRFLOW_RMQ_USER=${AIRFLOW_RMQ_USER}
             - AIRFLOW_RMQ_PASS=${AIRFLOW_RMQ_PASS}
             - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASS}@postgres/airflow
+            - AIRFLOW_CONN_AIRFLOW_DB=postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASS}@postgres/airflow
         env_file:
             - ${PATH_PREFIX}/poseidon/${ENV_FILE}
         ports:
@@ -60,6 +61,7 @@ services:
             - AIRFLOW_RMQ_USER=${AIRFLOW_RMQ_USER}
             - AIRFLOW_RMQ_PASS=${AIRFLOW_RMQ_PASS}
             - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASS}@postgres/airflow
+            - AIRFLOW_CONN_AIRFLOW_DB=postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASS}@postgres/airflow
         env_file:
             - ${PATH_PREFIX}/poseidon/${ENV_FILE}
         links:

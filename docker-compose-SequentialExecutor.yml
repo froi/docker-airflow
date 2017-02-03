@@ -25,6 +25,7 @@ services:
             - AIRFLOW_RMQ_USER=${AIRFLOW_RMQ_USER}
             - AIRFLOW_RMQ_PASS=${AIRFLOW_RMQ_PASS}
             - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////usr/local/airflow/airflow.db
+            - AIRFLOW_CONN_AIRFLOW_DB=sqlite:////usr/local/airflow/airflow.db
         env_file:
             - ${PATH_PREFIX}/poseidon/${ENV_FILE}
         ports:
