@@ -7,15 +7,15 @@ services:
             - "15672:15672"
             - "5672:5672"
         environment:
-            - RABBITMQ_DEFAULT_USER=airflow
-            - RABBITMQ_DEFAULT_PASS=airflow
+            - RABBITMQ_DEFAULT_USER=${AIRFLOW_RMQ_USER}
+            - RABBITMQ_DEFAULT_PASS=${AIRFLOW_RMQ_PASS}
             - RABBITMQ_DEFAULT_VHOST=airflow
 
     postgres:
         image: postgres:9.6
         environment:
-            - POSTGRES_USER=airflow
-            - POSTGRES_PASSWORD=airflow
+            - POSTGRES_USER=${AIRFLOW_DB_USER}
+            - POSTGRES_PASSWORD=${AIRFLOW_DB_PASS}
             - POSTGRES_DB=airflow
         ports:
             - "5432:5432"

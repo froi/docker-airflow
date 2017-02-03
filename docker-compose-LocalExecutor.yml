@@ -3,8 +3,8 @@ services:
     postgres:
         image: postgres:9.6
         environment:
-            - POSTGRES_USER=airflow
-            - POSTGRES_PASSWORD=airflow
+            - POSTGRES_USER=${AIRFLOW_DB_USER}
+            - POSTGRES_PASSWORD=${AIRFLOW_DB_PASS}
             - POSTGRES_DB=airflow
         ports:
             - "5432:5432"
