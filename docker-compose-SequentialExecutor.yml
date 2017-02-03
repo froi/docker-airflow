@@ -25,6 +25,8 @@ services:
             - AIRFLOW_RMQ_USER=${AIRFLOW_RMQ_USER}
             - AIRFLOW_RMQ_PASS=${AIRFLOW_RMQ_PASS}
             - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////usr/local/airflow/airflow.db
+            - AIRFLOW__CELERY__BROKER_URL=amqp://${AIRFLOW_RMQ_USER}:${AIRFLOW_RMQ_PASS}@rabbitmq:5672/airflow
+            - AIRFLOW__CELERY__CELERY_RESULT_BACKEND=amqp://${AIRFLOW_RMQ_USER}:${AIRFLOW_RMQ_PASS}@rabbitmq:5672/airflow
             - AIRFLOW_CONN_AIRFLOW_DB=sqlite:////usr/local/airflow/airflow.db
         env_file:
             - ${PATH_PREFIX}/poseidon/${ENV_FILE}
