@@ -99,6 +99,8 @@ RUN set -ex \
     && pip install beautifulsoup4==4.5.1 \
     && pip install lxml==3.7.0 \
     && pip install jupyter \
+    && pip install password \
+    && pip install Flask-Bcrypt \
     && pip install airflow[celery,postgres,hive,slack,jdbc,s3]==$AIRFLOW_VERSION \
     #&& apt-get remove --purge -yqq $buildDeps libpq-dev \
     && apt-get clean \
