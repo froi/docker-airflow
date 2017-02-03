@@ -20,6 +20,11 @@ services:
             - FERNET_KEY=9IoTgQ_EJ0hCsamBU3Mctc7F9OkODnndOKCwkwXCAA
             - AIRFLOW_HOME=/usr/local/airflow
             - EXECUTOR=Sequential
+            - AIRFLOW_DB_USER=${AIRFLOW_DB_USER}
+            - AIRFLOW_DB_PASS=${AIRFLOW_DB_PASS}
+            - AIRFLOW_RMQ_USER=${AIRFLOW_RMQ_USER}
+            - AIRFLOW_RMQ_PASS=${AIRFLOW_RMQ_PASS}
+            - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////usr/local/airflow/airflow.db
         env_file:
             - ${PATH_PREFIX}/poseidon/${ENV_FILE}
         ports:

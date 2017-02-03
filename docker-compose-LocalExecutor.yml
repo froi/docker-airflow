@@ -26,6 +26,11 @@ services:
             - EXECUTOR=Local
             - FERNET_KEY=9IoTgQ_EJ0hCsamBU3Mctc7F9OkODnndOKCwkwXCAA
             - AIRFLOW_HOME=/usr/local/airflow
+            - AIRFLOW_DB_USER=${AIRFLOW_DB_USER}
+            - AIRFLOW_DB_PASS=${AIRFLOW_DB_PASS}
+            - AIRFLOW_RMQ_USER=${AIRFLOW_RMQ_USER}
+            - AIRFLOW_RMQ_PASS=${AIRFLOW_RMQ_PASS}
+            - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASS}@postgres/airflow
         env_file:
             - ${PATH_PREFIX}/poseidon/${ENV_FILE}
         ports:
@@ -50,6 +55,11 @@ services:
             - FERNET_KEY=9IoTgQ_EJ0hCsamBU3Mctc7F9OkODnndOKCwkwXCAA
             - EXECUTOR=Local
             - AIRFLOW_HOME=/usr/local/airflow
+            - AIRFLOW_DB_USER=${AIRFLOW_DB_USER}
+            - AIRFLOW_DB_PASS=${AIRFLOW_DB_PASS}
+            - AIRFLOW_RMQ_USER=${AIRFLOW_RMQ_USER}
+            - AIRFLOW_RMQ_PASS=${AIRFLOW_RMQ_PASS}
+            - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASS}@postgres/airflow
         env_file:
             - ${PATH_PREFIX}/poseidon/${ENV_FILE}
         links:
