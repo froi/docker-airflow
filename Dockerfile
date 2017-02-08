@@ -40,6 +40,7 @@ RUN set -ex \
         build-essential \
         libblas-dev \
         liblapack-dev \
+        libpq-dev \
     ' \
     && echo "deb http://http.debian.net/debian jessie-backports main" >/etc/apt/sources.list.d/backports.list \
     && apt-get clean -yqq \
@@ -79,8 +80,9 @@ RUN set -ex \
     && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
     && useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow \
     && pip install Cython \
+    && pip install packaging \
+    && pip install appdirs \
     && pip install pytz==2015.7 \
-    && pip install cryptography \
     && pip install pyOpenSSL \
     && pip install ndg-httpsclient \
     && pip install pyasn1 \
@@ -101,7 +103,9 @@ RUN set -ex \
     && pip install jupyter \
     && pip install password \
     && pip install Flask-Bcrypt \
-    && pip install airflow[celery,postgres,hive,slack,jdbc,s3]==$AIRFLOW_VERSION \
+    && pip install geomet==0.1.1 \
+    && pip install geopy==1.11 \
+    && pip install airflow[celery,postgres,hive,slack,jdbc,s3,crypto,jdbc]==$AIRFLOW_VERSION \
     #&& apt-get remove --purge -yqq $buildDeps libpq-dev \
     && apt-get clean \
     && rm -rf \
@@ -122,7 +126,9 @@ RUN unzip ${AIRFLOW_HOME}/oracle.zip -d /opt \
 
 RUN chown -R airflow: ${AIRFLOW_HOME} \
     && chmod +x ${AIRFLOW_HOME}/entrypoint.sh \
-    && chown -R airflow /usr/lib/python* /usr/local/lib/python*
+    && chown -R airflow /usr/lib/python* /usr/local/lib/python* \
+    && chown -R airflow /usr/lib/python2.7/* /usr/local/lib/python2.7/* \
+    && chown -R airflow /usr/local/bin* /usr/local/bin/*
 
 EXPOSE 8080 5555 8793
 
