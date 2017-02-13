@@ -23,7 +23,7 @@ containers = {
 
 def kill_all_containers():
     subprocess.call('docker kill $(docker ps -q)', shell=True)
-    subprocess.call('docker rm $(docker ps -a -q)', shell=True)
+    subprocess.call('docker rm -v $(docker ps -a -q)', shell=True)
 
 
 
