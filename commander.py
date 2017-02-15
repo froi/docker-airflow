@@ -37,7 +37,12 @@ if command == 'start' or command == 'up' or command == 'stop' or command == 'dow
     # Stop no matter what.
     tmpl = string.Template("Stopping $composeType executor.")
     print(tmpl.substitute(composeType=compose_type))
-    kill_all_containers()
+
+    subprocess.call(
+        "docker-compose -f docker-compose-" + executors[compose_type] +
+        ".yml down",
+        shell=True)
+
     if command == 'up' or command == 'start':
         tmpl = string.Template("Starting $composeType executor.")
         print(tmpl.substitute(composeType=compose_type))
