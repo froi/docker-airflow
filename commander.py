@@ -21,9 +21,21 @@ containers = {
     'fmeengine': 'fmeengine_1'
 }
 
+
+# Garbage Collect
+def docker_gc():
+    # Clean up as part of this gig
+    subprocess.call('docker rm -v $(docker ps -a -q -f status=exited)', shell=True)
+    subprocess.call('docker rmi $(docker images -f "dangling=true" -q)', shell=True)
+    subprocess.call('docker volume rm $(docker volume ls -qf dangling=true)', shell=True)
+
+
 def kill_all_containers():
     subprocess.call('docker kill $(docker ps -q)', shell=True)
-    subprocess.call('docker rm -v $(docker ps -a -q)', shell=True)
+    docker_gc()
+
+
+
 
 
 
