@@ -23,16 +23,16 @@ containers = {
 
 
 # Garbage Collect
-def docker_gc():
+def garbage_collect():
     # Clean up as part of this gig
-    subprocess.call('docker rm -v $(docker ps -a -q -f status=exited)', shell=True)
-    subprocess.call('docker rmi $(docker images -f "dangling=true" -q)', shell=True)
-    subprocess.call('docker volume rm $(docker volume ls -qf dangling=true)', shell=True)
+    #subprocess.call('docker rm -v $(docker ps -a -q -f status=exited)', shell=True)
+    #subprocess.call('docker rmi $(docker images -f "dangling=true" -q)', shell=True)
+    #subprocess.call('docker volume rm $(docker volume ls -qf dangling=true)', shell=True)
+    subprocess.call('./docker-cleanup.sh', shell=True)
 
 
 def kill_all_containers():
     subprocess.call('docker kill $(docker ps -q)', shell=True)
-    docker_gc()
 
 
 
@@ -107,6 +107,10 @@ elif command == 'remove_image':
 
 elif command == 'kill_all_containers':
     kill_all_containers()
+    garbage_collect()
+
+elif command == 'garbage_collect':
+    garbage_collect()
 
 elif command == 'setup':
     menv = args[2] or 'mac'
