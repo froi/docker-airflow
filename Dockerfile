@@ -24,6 +24,9 @@ ENV LC_MESSAGES en_US.UTF-8
 ENV LC_ALL  en_US.UTF-8
 ENV LC_ALL=C
 
+# GDAL data env
+ENV GDAL_DATA /usr/share/gdal
+
 # Oracle Essentials
 ENV ORACLE_HOME /opt/oracle
 ENV ARCH x86_64
@@ -38,9 +41,22 @@ RUN set -ex \
         libssl-dev \
         libffi-dev \
         build-essential \
+        libcurl4-gnutls-dev \
+        libnetcdf-dev \
+        libpoppler-dev \
+        libhdf4-alt-dev \
+        libhdf5-serial-dev \
         libblas-dev \
         liblapack-dev \
         libpq-dev \
+        libgdal-dev \
+        libproj-dev \
+        libgeos-dev \
+        libspatialite-dev \
+        libspatialindex-dev \
+        libfreetype6-dev \
+        libxml2-dev \
+        libxslt-dev \
     ' \
     && echo "deb http://http.debian.net/debian jessie-backports main" >/etc/apt/sources.list.d/backports.list \
     && apt-get clean -yqq \
@@ -50,10 +66,12 @@ RUN set -ex \
         python-pip \
         apt-utils \
         curl \
+        git \
         netcat \
         locales \
         cython \
         python-numpy \
+        python-gdal \
         libaio1 \
         unzip \
         less \
@@ -61,9 +79,13 @@ RUN set -ex \
         smbclient \
         vim \
         wget \
-        libxml2-dev \
-        libxslt-dev \
+        gdal-bin \
+        sqlite3 \
     && apt-get install -yqq -t jessie-backports python-requests libpq-dev \
+    && curl -sL https://deb.nodesource.com/setup_7.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g mapshaper \
+    && npm install -g turf-cli \
     #&& apt-get install -yqq --no-install-recommends \
     #    r-base \
     #    r-recommended \
@@ -79,6 +101,7 @@ RUN set -ex \
     && locale-gen \
     && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
     && useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow \
+    && pip install -U pip \
     && pip install Cython \
     && pip install packaging \
     && pip install appdirs \
@@ -93,18 +116,28 @@ RUN set -ex \
     && pip install geojson \
     && pip install httplib2 \
     && pip install pymssql \
-    && pip install pandas==0.19.1 \
+    && pip install pandas==0.19.2 \
     && pip install xlrd==1.0.0 \
     && pip install autodoc==0.3 \
     && pip install Sphinx==1.5.1 \
-    && pip install celery==3.1.23 \
-    && pip install beautifulsoup4==4.5.1 \
-    && pip install lxml==3.7.0 \
+    && pip install celery==4.0.2 \
+    && pip install beautifulsoup4==4.5.3 \
+    && pip install lxml==3.7.3 \
+    && pip install ipython==5.3.0 \
     && pip install jupyter \
     && pip install password \
     && pip install Flask-Bcrypt \
     && pip install geomet==0.1.1 \
     && pip install geopy==1.11 \
+    && pip install rtree \
+    && pip install shapely \
+    && pip install fiona \
+    && pip install descartes \
+    && pip install pyproj \
+    && pip install geopandas \
+    && pip install requests==2.13.0 \
+    && pip install PyGithub==1.32 \
+    && pip install keen==0.3.31 \
     && pip install airflow[celery,postgres,hive,slack,jdbc,s3,crypto,jdbc]==$AIRFLOW_VERSION \
     #&& apt-get remove --purge -yqq $buildDeps libpq-dev \
     && apt-get clean \
@@ -128,7 +161,8 @@ RUN chown -R airflow: ${AIRFLOW_HOME} \
     && chmod +x ${AIRFLOW_HOME}/entrypoint.sh \
     && chown -R airflow /usr/lib/python* /usr/local/lib/python* \
     && chown -R airflow /usr/lib/python2.7/* /usr/local/lib/python2.7/* \
-    && chown -R airflow /usr/local/bin* /usr/local/bin/*
+    && chown -R airflow /usr/local/bin* /usr/local/bin/* \
+    && sed -i "s|flask.ext.cache|flask_cache|g" /usr/local/lib/python2.7/dist-packages/flask_cache/jinja2ext.py
 
 EXPOSE 8080 5555 8793
 
